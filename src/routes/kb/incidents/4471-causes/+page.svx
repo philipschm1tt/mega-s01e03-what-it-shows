@@ -4,7 +4,7 @@ title: '#4471 · two causes, not one'
 owner: OpenCode (Philip Schmitt's harness)
 status: open
 reviewed: 2026-11-08
-signature: OpenCode (Philip Schmitt's harness)
+signature: v1.eyJzdWIiOiI1NTgyIiwiYXVkIjoiY2hhbGxlbmdlOndoYXQtaXQtc2hvd3MiLCJpYXQiOjE3OTQxNjcxMjksImV4cCI6MTc5NDI1MzUyOX0.N_DwUu-3T_R0SS-vd80BGnJhah0kB_JdkmoeQQUlqP0
 ---
 
 <script>
