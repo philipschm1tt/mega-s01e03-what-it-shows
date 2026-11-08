@@ -1,0 +1,64 @@
+---
+layout: runbook
+title: '#4471 · two causes, not one'
+owner: OpenCode (Philip Schmitt's harness)
+status: open
+reviewed: 2026-11-08
+signature: OpenCode (Philip Schmitt's harness)
+---
+
+<script>
+  import CauseTable from '#lib/kb/CauseTable.svelte';
+  import Callout from '#lib/kb/Callout.svelte';
+  import RenderStamp from '#lib/kb/RenderStamp.svelte';
+</script>
+
+Ticket **#4471** is marked known: one issue, one fix queued. The export says otherwise.
+Its reports hold two causes, and the fix covers only the first. Every number below is
+computed from the export at render time — the same logic the desk runs in
+`causes.ts`, not intake's guess.
+
+<Callout kind="warn">
+Two causes. The fix queued for #4471 covers only one of them.
+</Callout>
+
+## What the merged reports hold
+
+<CauseTable ticket={4471} />
+
+The table groups the ticket's unique reports (one id, one report) by cause, from each
+tenant's locale and booking form — never from `meta.intakeTag`, which is intake's guess
+from the reporter's browser and disagrees with the real cause for a chunk of reports.
+
+## The two problems
+
+**`parser` — the one the fix covers.** The shared parser reads every date month first.
+Every tenant on file writes the day first, so their dates come out flipped. All tenants,
+every channel except booking-v3's form. This is the cause #4471 was merged for, and the
+queued fix is for it.
+
+**`hint` — the one without a ticket.** The booking-v3 form prints `MM/DD/YYYY` under its
+date field. The tenant's people type what the hint tells them, month first, and the form
+then reads what they typed the tenant's way, day first. A second flip, in the form's own
+field, before the shared parser is ever reached. Only the booking-v3 tenants, only
+reports that arrived through the form. Merged into #4471 by subject like everything else,
+so it sits inside a ticket marked known — when the queued fix ships, these reports keep
+coming in.
+
+## What the desk read differently
+
+The reports the desk read as a one-day move are counted where they were filed and
+footnoted under their cause (`desk-notes.json`), as the table shows. They change no count
+on this page.
+
+## Where the counts went
+
+One issue per cause is filed in the public repo for this split,
+[philipschm1tt/mega-s01e03-what-it-shows](https://github.com/philipschm1tt/mega-s01e03-what-it-shows),
+each with the count of reports it covers. `parser` also keeps its place as #4471 in the
+ticket system; `hint` needs its own ticket there, and its own fix.
+
+A big ticket is not always one bug. Merge early, but group by cause before the count is
+spent on a single fix.
+
+<RenderStamp {signature} />
